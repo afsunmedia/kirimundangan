@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="author" content="@neoandien">
+    <title>Invitation Sender</title>
+    <link href="bootstrap.min.css" rel="stylesheet">
+	<script src="bootstrap.bundle.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1db39e6d44.js" crossorigin="anonymous"></script>
+	<style type="text/css">
+		body {
+			background: rgb(165,222,160);
+			background: radial-gradient(circle, rgba(165,222,160,1) 42%, rgba(112,157,117,1) 100%);
+		}
+		.header {
+		    font-family: 'Montserrat', sans-serif;
+		}
+		.txtcopied {
+			position: sticky;
+			bottom:0;
+			transform: scale(0);
+			transition: 0.3s;
+			background: rgb(165,222,160);
+		}
+	</style>
+  </head>
+  <body>
+	<div class="container-fluid mt-5 mb-5">
+		<div class="row">
+			<div class="col col-12 col-md-6 m-auto">
+			    <div class="bg-white rounded px-2 py-2 mb-2">
+    				<h1 class="fs-3 header text-center">Invitation Sender</h1>
+    				<hr class="mt-1">
+    				<h5 class="fs-6">* Gunakan baris baru (↵) untuk memisahkan nama yang akan Anda undang.</h5>
+				</div>
+				<form class="form-control" id="note-form">
+					<div class="mb-3">
+					  <label for="txtLink" class="form-label fw-bold">Link Undangan</label>
+					  <input type="text" id="link-input" name="_urlundangan" class="form-control form-control-sm overflow-auto" placeholder="https:// ....">
+					</div>
+					<div class="mb-3">
+						<label for="typeurl" class="form-label fw-bold">Type URL Parameter</label>
+						<select id="typeurl" class="form-select form-select-sm" aria-label=".form-select-sm example">
+						  <option value="2" selected>/?penerima=tamu</option>
+						</select>
+					</div>
+					<div class="mb-3">
+					  <label for="txtLink" class="form-label fw-bold">Nama Mempelai</label>
+					  <input type="text" id="mempelai-input" name="_mempelai" class="form-control form-control-sm overflow-auto" placeholder="Aku dan Kamu">
+					</div>
+					<div class="mb-3">
+					  <label for="txtListTamu" class="form-label fw-bold">List Nama Tamu</label>
+					  <textarea id="note-input" class="form-control form-control-sm overflow-auto" rows="6" placeholder="+ Tambah Tamu"></textarea>
+					</div>
+					<div class="mb-3">
+						<input value="1" id="Check1" type="checkbox" onclick="checbocChecked(this.id)"> Formal <input value="2" id="Check2" type="checkbox" onclick="checbocChecked(this.id)"> Muslim <input value="3" id="Check3" type="checkbox" onclick="checbocChecked(this.id)"> Nasrani <input value="4" id="Check4" type="checkbox" onclick="checbocChecked(this.id)"> Hindu  
+					</div>
+					<div class="mb-3">
+					  <label for="txtListTamu" class="form-label fw-bold">Text Pengantar</label>
+					  <textarea id="note-pengantar" class="form-control form-control-sm overflow-auto" rows="6" placeholder="+ kata pengantar"></textarea>
+					</div>
+					<button class="btn btn-success fw-bold" id="note-submit">Tambah Tamu</button>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-12 col-md-6 m-auto">
+			  <div class="row align-items-start border border-0 rounded my-2 mx-1">
+				<div class="col bg-white rounded p-0">
+				<ul class="m-0 list-group border border-0" id="notes">
+					<li class="list-group-item border border-1 fw-bold">Nama Tamu <span class="m-1 float-end">Action</span></li></ul>
+				  <ul class="list-group border border-0" id="notes"></ul>
+				</div>
+			  </div>
+			</div>
+		</div>
+	</div>
+	 <ul class="m-0 list-group border border-0 txtcopied" id="txtcopied">
+		<li class="m-0 list-group border border-0 fs-3 fw-bold text-center mt-1">Link Berhasil Disalin</li>
+	</ul>
+    
+    <script>
+      const noteForm=document.getElementById("note-form");const noteInput=document.getElementById("note-input");const linkInput=document.getElementById("link-input");const linkundangan2=linkInput.value;const paramtype=document.getElementById("typeurl");const mempelai=document.getElementById("mempelai-input");const pengantarInput=document.getElementById("note-pengantar");const noteSubmit=document.getElementById("note-submit");const notes=document.getElementById("notes");const copyBtn=document.getElementById("copybtn");if(getStor(linkInput.name)!==null){linkInput.value=getStor(linkInput.name)}if(getStor(mempelai.name)!==null){mempelai.value=getStor(mempelai.name)}linkInput.addEventListener("change",(a=>{localStorage.setItem(linkInput.name,linkInput.value)}));mempelai.addEventListener("change",(a=>{localStorage.setItem(mempelai.name,mempelai.value)}));pengantarInput.value=`Kepada Yth.\nBapak/Ibu/Saudara/i\n*[nama]*\n_____________________\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat, untuk menghadiri acara pernikahan kami.\n\n*Berikut link undangan kami*, untuk info lengkap dari acara, bisa kunjungi :\n\n[link-undangan]\n\nMerupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.\n\nTerima Kasih\n\nHormat kami,\n[mempelai]\n____________________\n\n_*simpan nomor ini jika link tidak dapat disentuh atau salin link [link-undangan2] ke browser untuk membuka undangan_`;let notesStorage=getStor("notes")?JSON.parse(getStor("notes")):[];noteForm.addEventListener("submit",(a=>{a.preventDefault();let n;let e=noteInput.value;e=e.split(/\n/g);for(n=0;n<e.length;n++){notesStorage.push(e[n]);localStorage.setItem("notes",JSON.stringify(notesStorage));listBuilder(e[n])}noteInput.value=""}));const listBuilder=a=>{let n=paramtype.value;let e=linkInput.value+"/to/"+a+"/";if(n==="1"){e=linkInput.value+"/to/"+a+"/"}else if(n==="2"){e=linkInput.value+"?penerima="+encodeURIComponent(a)}else{e=linkInput.value}const t=document.createElement("li");t.classList.add("list-group-item");t.classList.add("border");t.classList.add("border-1");t.innerHTML='<span class="fs-5">'+a+'</span> <button title="Hapus" class="btn btn-sm btn-danger m-1 float-end" onclick="deleteNote(this)"><i class="fa-solid fa-trash-can fs-6"></i></button> <button title="Salin Ucapan" id="copybtn" class="btn btn-sm btn-secondary m-1 float-end" onclick="salin(this.dataset.copy)" data-copy="'+a+'"><i class="fa-solid fa-copy fs-6"></i></button> <button title="Share ke Whatsapp" class="btn btn-sm btn-success m-1 float-end" onclick="share(this.dataset.name)" data-name="'+a+'"><i class="fa-brands fa-whatsapp fs-6"></i></button>';notes.appendChild(t)};let getNotes=getStor("notes");if(getNotes!==null){getNotes=JSON.parse(getNotes);getNotes.forEach((a=>{listBuilder(a)}))}const deleteNote=a=>{let n=a.parentNode;const e=[...n.parentElement.children].indexOf(n);notesStorage.splice(e,1);localStorage.setItem("notes",JSON.stringify(notesStorage));n.remove();if(e===1){localStorage.clear()}};const salin=a=>{if(linkInput.value===""){alert("Link Undangan Wajib Di isi");return}if(mempelai.value===""){alert("Nama Mempelai Wajib Di isi");return}const n=pengantarInput.value;const e=paramtype.value;let t=n.replace("[nama]",a);if(e==="1"){t=t.replace("[link-undangan]",linkInput.value+"/to/"+a+"/");t=t.replace("[link-undangan2]",linkInput.value+"/to/"+a+"/")}else if(e==="2"){t=t.replace("[link-undangan]",linkInput.value+"/?penerima="+encodeURIComponent(a));t=t.replace("[link-undangan2]",linkInput.value+"/?penerima="+encodeURIComponent(a))}else{t=t.replace("[link-undangan]",linkInput.value);t=t.replace("[link-undangan2]",linkInput.value)}t=t.replace("[mempelai]",mempelai.value);copyit(t)};const share=a=>{if(linkInput.value===""){alert("Link Undangan Wajib Di isi");return}if(mempelai.value===""){alert("Nama Mempelai Wajib Di isi");return}const n="https://api.whatsapp.com/send?phone=&text=";const e=pengantarInput.value;const t=paramtype.value;let i=e.replace("[nama]",a);if(t==="1"){i=i.replace("[link-undangan]",linkInput.value+"/to/"+a+"/");i=i.replace("[link-undangan2]",linkInput.value+"/to/"+a+"/")}else if(t==="2"){i=i.replace("[link-undangan]",linkInput.value+"/?penerima="+encodeURIComponent(a));i=i.replace("[link-undangan2]",linkInput.value+"/?penerima="+encodeURIComponent(a))}else{i=i.replace("[link-undangan]",linkInput.value);i=i.replace("[link-undangan2]",linkInput.value)}i=i.replace("[mempelai]",mempelai.value);window.open(n+encodeURIComponent(i),"_blank")};function getStor(a){if(typeof localStorage.getItem(a)!==null){return localStorage.getItem(a)}else{return null}}function checbocChecked(a){const n=document.querySelectorAll("input[type=checkbox]");n.forEach((a=>a.addEventListener("click",(e=>{n.forEach((n=>{if(n!==a)n.checked=false}))}))));document.getElementById(a).checked=true;pengantar(document.getElementById(a).value)}function pengantar(a){let n;switch(a){case"1":n="Kepada%20Yth.%0ABapak%2FIbu%2FSaudara%2Fi%0A*%5Bnama%5D*%0A_____________________%0A%0ATanpa%20mengurangi%20rasa%20hormat%2C%20perkenankan%20kami%20mengundang%20Bapak%2FIbu%2FSaudara%2Fi%2C%20teman%20sekaligus%20sahabat%2C%20untuk%20menghadiri%20acara%20pernikahan%20kami.%0A%0A*Berikut%20link%20undangan%20kami*%2C%20untuk%20info%20lengkap%20dari%20acara%2C%20bisa%20kunjungi%20%3A%0A%0A%5Blink-undangan%5D%0A%0AMerupakan%20suatu%20kebahagiaan%20bagi%20kami%20apabila%20Bapak%2FIbu%2FSaudara%2Fi%20berkenan%20untuk%20hadir%20dan%20memberikan%20doa%20restu.%0A%0ATerima%20Kasih%0A%0AHormat%20kami%2C%0A%5Bmempelai%5D%0A____________________%0A%0A_*simpan%20nomor%20ini%20jika%20link%20tidak%20dapat%20disentuh%20atau%20salin%20link%20%5Blink-undangan2%5D%20ke%20browser%20untuk%20membuka%20undangan_";break;case"2":n="Kepada%20Yth.%0ABapak%2FIbu%2FSaudara%2Fi%0A*%5Bnama%5D*%0A_____________________%0A%0A*Assalamualaikum%20Warahmatullahi%20Wabarakatuh*%0A%0ATanpa%20mengurangi%20rasa%20hormat%2C%20perkenankan%20kami%20mengundang%20Bapak%2FIbu%2FSaudara%2Fi%2C%20teman%20sekaligus%20sahabat%2C%20untuk%20menghadiri%20acara%20pernikahan%20kami.%0A%0A*Berikut%20link%20undangan%20kami*%2C%20untuk%20info%20lengkap%20dari%20acara%2C%20bisa%20kunjungi%20%3A%0A%0A%5Blink-undangan%5D%0A%0AMerupakan%20suatu%20kebahagiaan%20bagi%20kami%20apabila%20Bapak%2FIbu%2FSaudara%2Fi%20berkenan%20untuk%20hadir%20dan%20memberikan%20doa%20restu.%0A%0A*Wassalamualaikum%20Warahmatullahi%20Wabarakatuh*%0A%0ATerima%20Kasih%0A%0AHormat%20kami%2C%0A%5Bmempelai%5D%0A____________________%0A%0A_*simpan%20nomor%20ini%20jika%20link%20tidak%20dapat%20disentuh%20atau%20salin%20link%20%5Blink-undangan2%5D%20ke%20browser%20untuk%20membuka%20undangan_";break;case"3":n="Kepada%20Yth.%0ABapak%2FIbu%2FSaudara%2Fi%0A*%5Bnama%5D*%0A_____________________%0A%0ASalam%20Sejahtera%20Bagi%20Kita%20Semua.%20Tuhan%20membuat%20segala%20sesuatu%20indah%20pada%20waktunya%20dan%20mempersatukan%20kami%20dalam%20suatu%20ikatan%20pernikahan%20kudus%2C%20semoga%20Tuhan%20memberkati%20dalam%20mengiringi%20pernikahan%20kami.%0A%0ATanpa%20mengurangi%20rasa%20hormat%2C%20perkenankan%20kami%20mengundang%20Bapak%2FIbu%2FSaudara%2Fi%2C%20teman%20sekaligus%20sahabat%2C%20untuk%20menghadiri%20acara%20pernikahan%20kami.%0A%0A*Berikut%20link%20undangan%20kami*%2C%20untuk%20info%20lengkap%20dari%20acara%2C%20bisa%20kunjungi%20%3A%0A%0A%5Blink-undangan%5D%0A%0AMerupakan%20suatu%20kebahagiaan%20bagi%20kami%20apabila%20Bapak%2FIbu%2FSaudara%2Fi%20berkenan%20untuk%20hadir%20dan%20memberikan%20doa%20restu.%0A%0ATerima%20Kasih%0A%0AHormat%20kami%2C%0A%5Bmempelai%5D%0A____________________%0A%0A_*simpan%20nomor%20ini%20jika%20link%20tidak%20dapat%20disentuh%20atau%20salin%20link%20%5Blink-undangan2%5D%20ke%20browser%20untuk%20membuka%20undangan_";break;case"4":n="Kepada%20Yth.%0ABapak%2FIbu%2FSaudara%2Fi%0A*%5Bnama%5D*%0A_____________________%0A%0A*Om%20Swastiastu*%0A%0ATanpa%20mengurangi%20rasa%20hormat%2C%20perkenankan%20kami%20mengundang%20Bapak%2FIbu%2FSaudara%2Fi%2C%20teman%20sekaligus%20sahabat%2C%20untuk%20menghadiri%20acara%20pernikahan%20kami.%0A%0A*Berikut%20link%20undangan%20kami*%2C%20untuk%20info%20lengkap%20dari%20acara%2C%20bisa%20kunjungi%20%3A%0A%0A%5Blink-undangan%5D%0A%0AMerupakan%20suatu%20kebahagiaan%20bagi%20kami%20apabila%20Bapak%2FIbu%2FSaudara%2Fi%20berkenan%20untuk%20hadir%20dan%20memberikan%20doa%20restu.%0A%0A*Om%20Shanti%2C%20Shanti%2C%20Shanti%2C%20Om*%0A%0ATerima%20Kasih%0A%0AHormat%20kami%2C%0A%5Bmempelai%5D%0A____________________%0A%0A_*simpan%20nomor%20ini%20jika%20link%20tidak%20dapat%20disentuh%20atau%20salin%20link%20%5Blink-undangan2%5D%20ke%20browser%20untuk%20membuka%20undangan_";break}pengantarInput.value=decodeURIComponent(n)}function copyit(a){navigator.clipboard.writeText(a).then((()=>{document.getElementById("txtcopied").style.transform="scale(1)";const a=setTimeout(hideIT,1500)}),(()=>{console.log("gagal disalin")}))}function hideIT(){document.getElementById("txtcopied").style.transform="scale(0)"}
+      </script>
+  </body>
+</html>
